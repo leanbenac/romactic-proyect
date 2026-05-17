@@ -1,5 +1,5 @@
 // Canvas Particle Engine & Interactive Logic
-document.addEventListener('DOMContentLoaded', () => {
+function initApp() {
     // Screens and Navigation elements
     const introScreen = document.getElementById('intro-screen');
     const gardenScreen = document.getElementById('garden-screen');
@@ -404,4 +404,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     closeCardBtn.addEventListener('click', hideLetterCard);
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
+}
