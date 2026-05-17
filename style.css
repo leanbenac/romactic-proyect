@@ -408,7 +408,7 @@ canvas {
     margin-top: 15px;
 }
 
-/* Custom mobile adjustments */
+/* Custom mobile adjustments for low vertical heights */
 @media (max-height: 700px) {
     .controls-overlay {
         top: 15px;
@@ -434,5 +434,88 @@ canvas {
     }
     .bloom-btn {
         padding: 12px 35px;
+    }
+}
+
+/* Custom mobile adjustments for narrow screen viewports (phones in portrait) */
+@media (max-width: 480px) {
+    .glass-card {
+        padding: 25px 20px;
+    }
+    
+    .heart-icon-container {
+        width: 90px;
+        height: 90px;
+        margin-bottom: 15px;
+    }
+    
+    .heart-pulse {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .elegant-title {
+        font-size: 2rem;
+        margin-bottom: 10px;
+    }
+    
+    .subtitle {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+        line-height: 1.5;
+    }
+    
+    .premium-btn {
+        padding: 14px 28px;
+        font-size: 0.95rem;
+    }
+
+    .controls-overlay {
+        top: 15px;
+    }
+
+    .selector-title {
+        font-size: 0.75rem;
+        margin-bottom: 8px;
+    }
+
+    .flower-select-btn {
+        padding: 10px 5px;
+        font-size: 0.8rem;
+        border-radius: 10px;
+    }
+
+    .letter-card {
+        padding: 24px 20px 20px 20px;
+        max-height: 420px;
+    }
+
+    .letter-tag {
+        font-size: 0.7rem;
+        margin-bottom: 6px;
+    }
+
+    .letter-headline {
+        font-size: 1.25rem;
+        margin-bottom: 12px;
+    }
+
+    .letter-text {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        margin-bottom: 15px;
+    }
+
+    .signature {
+        font-size: 1.4rem;
+        margin-top: 10px;
+    }
+
+    .center-action {
+        bottom: 5%;
+    }
+
+    .bloom-btn {
+        padding: 12px 28px;
     }
 }
