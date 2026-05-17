@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para MaLu ❤️</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bg-vignette"></div>
+    <canvas id="flowerCanvas"></canvas>
+
+    <!-- Main Container -->
+    <main class="app-container">
+        <!-- Step 1: Initial State -->
+        <div id="intro-screen" class="screen active">
+            <div class="glass-card intro-card">
+                <div class="heart-icon-container">
+                    <svg class="heart-pulse" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 28.5S2 16.5 2 9.5a7.5 7.5 0 0 1 13-5.2A7.5 7.5 0 0 1 30 9.5c0 7-14 19-14 19z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <h1 class="elegant-title">Hola, MaLu...</h1>
+                <p class="subtitle">He preparado un pequeño detalle interactivo especialmente para ti. ¿Quieres verlo?</p>
+                <button id="start-btn" class="premium-btn">Hacer Florecer 🌸</button>
+            </div>
+        </div>
+
+        <!-- Step 2: Main Flower Screen (Hidden initially) -->
+        <div id="garden-screen" class="screen">
+            <!-- Flower Selector Controls -->
+            <div class="controls-overlay">
+                <div class="selector-title">Elige tus flores favoritas:</div>
+                <div class="flower-buttons">
+                    <button class="flower-select-btn active" data-type="rose">Rosas Rojas 🌹</button>
+                    <button class="flower-select-btn" data-type="sakura">Cerezos (Sakura) 🌸</button>
+                    <button class="flower-select-btn" data-type="sunflower">Girasoles 🌻</button>
+                    <button class="flower-select-btn" data-type="daisy">Margaritas 🌼</button>
+                </div>
+            </div>
+
+            <!-- Letter / Card Overlay -->
+            <div class="letter-container">
+                <div class="glass-card letter-card">
+                    <div class="close-card-btn">&times;</div>
+                    <div class="scrollable-content">
+                        <span class="letter-tag">Para MaLu</span>
+                        <h2 class="letter-headline" id="letter-title">Un jardín de rosas para MaLu 🌹</h2>
+                        <p class="letter-text" id="letter-body">
+                            Cada una de estas flores representa un motivo para sonreír hoy, MaLu. Eres la persona más increíble que conozco y quería recordarte lo mucho que te amo y lo feliz que me haces cada día. ✨
+                        </p>
+                        <div class="signature">Con amor, siempre ❤️</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- The Big Blooming Button -->
+            <div class="center-action">
+                <button id="bloom-trigger-btn" class="bloom-btn">
+                    <span class="bloom-text">¡Enviar Flores! 💐</span>
+                    <span class="bloom-subtext">Haz clic para llenar la pantalla</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

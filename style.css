@@ -1,0 +1,438 @@
+/* Premium Romantic Theme CSS */
+
+:root {
+    --bg-gradient: radial-gradient(circle, #2a1122 0%, #120613 100%);
+    --primary-color: #ff4a8b;
+    --primary-glow: rgba(255, 74, 139, 0.4);
+    --secondary-color: #ffd166;
+    --glass-bg: rgba(26, 11, 26, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-glow: 0 8px 32px 0 rgba(255, 74, 139, 0.15);
+    --text-primary: #fffbfd;
+    --text-secondary: #f3cbdc;
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Montserrat', sans-serif;
+    --font-cursive: 'Dancing Script', cursive;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--bg-gradient);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Background vignette and ambient light */
+.bg-vignette {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent 40%, rgba(0, 0, 0, 0.8) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Canvas for the flower particles */
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* App Container */
+.app-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Screens */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: scale(0.98) translateY(10px);
+    pointer-events: none;
+    transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.screen.active {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: all;
+}
+
+/* Glassmorphism Cards */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: var(--glass-glow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-card:hover {
+    box-shadow: 0 12px 40px 0 rgba(255, 74, 139, 0.25);
+    border-color: rgba(255, 74, 139, 0.2);
+}
+
+/* Heart Animation */
+.heart-icon-container {
+    width: 90px;
+    height: 90px;
+    background: rgba(255, 74, 139, 0.1);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255, 74, 139, 0.2);
+}
+
+.heart-pulse {
+    width: 45px;
+    height: 45px;
+    color: var(--primary-color);
+    animation: pulse 1.8s infinite ease-in-out;
+    filter: drop-shadow(0 0 8px var(--primary-color));
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    15% { transform: scale(1.22); }
+    30% { transform: scale(1); }
+    45% { transform: scale(1.15); }
+    60% { transform: scale(1); }
+    100% { transform: scale(1); }
+}
+
+/* Elegant Typography */
+.elegant-title {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    background: linear-gradient(135deg, #fff 30%, #ffcbdc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    font-weight: 300;
+}
+
+/* Premium Buttons */
+.premium-btn {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #ff7051 100%);
+    color: white;
+    border: none;
+    padding: 16px 36px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px var(--primary-glow);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.premium-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(255, 74, 139, 0.6);
+}
+
+.premium-btn:active {
+    transform: translateY(-1px);
+}
+
+/* Garden Screen Controls */
+.controls-overlay {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    z-index: 10;
+}
+
+.selector-title {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.flower-buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+@media (min-width: 480px) {
+    .flower-buttons {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.flower-select-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    padding: 10px 5px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 0.75rem;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.flower-select-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 74, 139, 0.3);
+    color: white;
+}
+
+.flower-select-btn.active {
+    background: linear-gradient(135deg, rgba(255, 74, 139, 0.2) 0%, rgba(255, 112, 81, 0.2) 100%);
+    border-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 0 15px rgba(255, 74, 139, 0.3);
+}
+
+/* Center Action Button (Bloom Trigger) */
+.center-action {
+    position: absolute;
+    bottom: 6%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: auto;
+}
+
+.bloom-btn {
+    background: linear-gradient(135deg, #ff4a8b 0%, #a132f0 100%);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    padding: 18px 45px;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 0 30px rgba(255, 74, 139, 0.4);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: gentle-bounce 3s infinite ease-in-out;
+}
+
+.bloom-btn:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 0 45px rgba(255, 74, 139, 0.7);
+    border-color: rgba(255,255,255,0.4);
+}
+
+/* Fixing translateY issues with dual transforms */
+.bloom-btn {
+    /* Base style with animations */
+}
+.center-action:hover .bloom-btn {
+    transform: scale(1.05) translateY(-6px);
+}
+
+.bloom-text {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.bloom-subtext {
+    font-size: 0.7rem;
+    opacity: 0.85;
+    margin-top: 3px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+@keyframes gentle-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* Letter/Card Overlay styles */
+.letter-container {
+    position: absolute;
+    width: 90%;
+    max-width: 420px;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    z-index: 5;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.letter-container.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.letter-card {
+    padding: 30px 25px 25px 25px;
+    position: relative;
+    max-height: 480px;
+}
+
+.close-card-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: color 0.3s;
+    line-height: 1;
+}
+
+.close-card-btn:hover {
+    color: var(--primary-color);
+}
+
+.scrollable-content {
+    width: 100%;
+    overflow-y: auto;
+    padding-right: 5px;
+    max-height: 400px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 74, 139, 0.3) transparent;
+}
+
+/* Custom Scrollbar */
+.scrollable-content::-webkit-scrollbar {
+    width: 4px;
+}
+.scrollable-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+.scrollable-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 74, 139, 0.3);
+    border-radius: 10px;
+}
+
+.letter-tag {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+.letter-headline {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.letter-text {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 25px;
+    text-align: left;
+    white-space: pre-line; /* preserves newlines */
+}
+
+.signature {
+    font-family: var(--font-cursive);
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    text-shadow: 0 0 10px rgba(255,74,139,0.2);
+    margin-top: 15px;
+}
+
+/* Custom mobile adjustments */
+@media (max-height: 700px) {
+    .controls-overlay {
+        top: 15px;
+    }
+    .letter-card {
+        max-height: 380px;
+        padding: 20px;
+    }
+    .scrollable-content {
+        max-height: 300px;
+    }
+    .letter-headline {
+        font-size: 1.3rem;
+        margin-bottom: 12px;
+    }
+    .letter-text {
+        font-size: 0.85rem;
+        line-height: 1.5;
+        margin-bottom: 15px;
+    }
+    .signature {
+        font-size: 1.5rem;
+    }
+    .bloom-btn {
+        padding: 12px 35px;
+    }
+}
