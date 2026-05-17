@@ -517,11 +517,12 @@ canvas {
     }
 
     .center-action {
-        bottom: 45px;
-        bottom: calc(25px + env(safe-area-inset-bottom));
+        bottom: 70px;
+        bottom: calc(45px + env(safe-area-inset-bottom));
     }
 
     .bloom-btn {
         padding: 12px 28px;
+        margin-bottom: 20px;
     }
 }
