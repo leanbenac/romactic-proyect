@@ -33,7 +33,7 @@ function initApp() {
     // Flower customization configurations
     const FLOWER_CONFIGS = {
         rose: {
-            title: 'Un jardín de rosas para Malu 🌹',
+            title: 'Sos la flor más linda de mi jardin 🌹',
             body: 'Nos vemos en unos días, mi amor',
             colors: [
                 { main: '#ff2a6d', accent: '#b50c37', highlight: '#ff7fa5' }, // Romantic pink-red
@@ -42,7 +42,7 @@ function initApp() {
             ]
         },
         sakura: {
-            title: 'Un suspiro de cerezos para Malu 🌸',
+            title: 'Te quiero para mi 🌸',
             body: 'Quiero verte todos los días cuando me despierto',
             colors: [
                 { main: '#ffb7c5', accent: '#ff9ebb', highlight: '#ffffff' }, // Delicate pastel pink
@@ -51,7 +51,7 @@ function initApp() {
             ]
         },
         sunflower: {
-            title: 'Malu, tú eres mi sol 🌻',
+            title: 'Malu, tenes los ojos mas lindos que vi🌻',
             body: 'Quiero tomar mates y comer ñoquis con vos',
             colors: [
                 { main: '#ffb703', accent: '#fb8500', highlight: '#ffe893' }, // Vibrant gold
@@ -60,7 +60,7 @@ function initApp() {
             ]
         },
         daisy: {
-            title: 'Tu ternura y paz, Malu 🌼',
+            title: 'Las que a vos te gustan bombon 🌼',
             body: 'Sos para mí',
             colors: [
                 { main: '#ffffff', accent: '#e9ecef', highlight: '#ffd166' }, // White petals, yellow core
