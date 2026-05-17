@@ -1,0 +1,792 @@
+/* Premium Romantic Theme CSS - Migrated to Next.js */
+
+:root {
+    --bg-gradient: radial-gradient(circle, #2a1122 0%, #120613 100%);
+    --primary-color: #ff4a8b;
+    --primary-glow: rgba(255, 74, 139, 0.4);
+    --secondary-color: #ffd166;
+    --glass-bg: rgba(26, 11, 26, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-glow: 0 8px 32px 0 rgba(255, 74, 139, 0.15);
+    --text-primary: #fffbfd;
+    --text-secondary: #f3cbdc;
+    --font-heading: var(--font-heading), 'Playfair Display', serif;
+    --font-body: var(--font-body), 'Montserrat', sans-serif;
+    --font-cursive: var(--font-cursive), 'Dancing Script', cursive;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Force lock viewport scrolling for true premium app behavior */
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden !important;
+    margin: 0;
+    padding: 0;
+    background: var(--bg-gradient);
+}
+
+body {
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Background vignette and ambient light */
+.bg-vignette {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, transparent 40%, rgba(0, 0, 0, 0.8) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Canvas for the flower particles */
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+}
+
+/* App Container - set padding to 0 to prevent alignment offset bugs */
+.app-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0; 
+    overflow: hidden;
+}
+
+/* Screens */
+.screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: scale(0.98) translateY(10px);
+    pointer-events: none;
+    transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.screen.active {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    pointer-events: all;
+}
+
+/* New Tab Content class to prevent nested screen active double positioning bugs */
+.tab-content {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Glassmorphism Cards */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: var(--glass-glow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-card:hover {
+    box-shadow: 0 12px 40px 0 rgba(255, 74, 139, 0.25);
+    border-color: rgba(255, 74, 139, 0.2);
+}
+
+/* Heart Animation */
+.heart-icon-container {
+    width: 110px;
+    height: 110px;
+    background: rgba(255, 74, 139, 0.1);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 25px;
+    border: 1px solid rgba(255, 74, 139, 0.2);
+}
+
+.heart-pulse {
+    width: 60px;
+    height: 60px;
+    color: var(--primary-color);
+    filter: drop-shadow(0 0 8px var(--primary-color));
+}
+
+/* Elegant Typography */
+.elegant-title {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    background: linear-gradient(135deg, #fff 30%, #ffcbdc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+}
+
+.subtitle {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    font-weight: 300;
+}
+
+/* Premium Buttons */
+.premium-btn {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #ff7051 100%);
+    color: white;
+    border: none;
+    padding: 16px 36px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px var(--primary-glow);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.premium-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(255, 74, 139, 0.6);
+}
+
+.premium-btn:active {
+    transform: translateY(-1px);
+}
+
+/* Garden Screen Controls */
+.controls-overlay {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 92%;
+    max-width: 600px;
+    text-align: center;
+    z-index: 10;
+}
+
+.selector-title {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    font-weight: 600;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Redesigned to support natural flex widths, avoiding squishing and wrapping */
+.flower-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.flower-select-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    padding: 10px 18px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    white-space: nowrap; /* Forces emojis to remain on the same line */
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.flower-select-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 74, 139, 0.3);
+    color: white;
+}
+
+.flower-select-btn.active {
+    background: linear-gradient(135deg, rgba(255, 74, 139, 0.2) 0%, rgba(255, 112, 81, 0.2) 100%);
+    border-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 0 15px rgba(255, 74, 139, 0.3);
+}
+
+/* Center Action Button (Bloom Trigger) - adjusted to bottom 15% to sit perfectly above true fixed nav dock */
+.center-action {
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: auto;
+}
+
+.bloom-btn {
+    background: linear-gradient(135deg, #ff4a8b 0%, #a132f0 100%);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    padding: 16px 40px;
+    cursor: pointer;
+    outline: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 0 30px rgba(255, 74, 139, 0.4);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.bloom-btn:hover {
+    box-shadow: 0 0 45px rgba(255, 74, 139, 0.7);
+    border-color: rgba(255,255,255,0.4);
+}
+
+.bloom-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.bloom-subtext {
+    font-size: 0.65rem;
+    opacity: 0.85;
+    margin-top: 3px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Letter/Card Overlay styles */
+.letter-container {
+    position: absolute;
+    width: 90%;
+    max-width: 440px;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    z-index: 5;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.letter-container.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.letter-card {
+    padding: 30px 25px 25px 25px;
+    position: relative;
+    max-height: 480px;
+    width: 100%;
+}
+
+.close-card-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: color 0.3s;
+    line-height: 1;
+}
+
+.close-card-btn:hover {
+    color: var(--primary-color);
+}
+
+.scrollable-content {
+    width: 100%;
+    overflow-y: auto;
+    padding-right: 5px;
+    max-height: 400px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 74, 139, 0.3) transparent;
+}
+
+/* Custom Scrollbar */
+.scrollable-content::-webkit-scrollbar {
+    width: 4px;
+}
+.scrollable-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+.scrollable-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 74, 139, 0.3);
+    border-radius: 10px;
+}
+
+.letter-tag {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--primary-color);
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+.letter-headline {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.letter-text {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: 25px;
+    text-align: left;
+    white-space: pre-line;
+}
+
+.signature {
+    font-family: var(--font-cursive);
+    font-size: 1.8rem;
+    color: var(--primary-color);
+    text-shadow: 0 0 10px rgba(255,74,139,0.2);
+    margin-top: 15px;
+}
+
+/* --- Navigation Dock - position fixed with high z-index and safe viewport anchor --- */
+.nav-dock {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(26, 11, 26, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 40px;
+    padding: 8px 16px;
+    display: flex;
+    gap: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 74, 139, 0.1);
+    z-index: 200; /* Ensured it stays above all transformed screen contents */
+    pointer-events: all;
+    max-width: 92%;
+    width: max-content;
+}
+
+.nav-item {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    padding: 10px 16px;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+}
+
+.nav-item.active {
+    background: linear-gradient(135deg, rgba(255, 74, 139, 0.25) 0%, rgba(255, 112, 81, 0.25) 100%);
+    color: white;
+    border: 1px solid rgba(255, 74, 139, 0.4);
+    box-shadow: 0 0 10px rgba(255, 74, 139, 0.2);
+}
+
+/* --- Daily Messages --- */
+.days-container {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 120px 10px 100px 10px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.days-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.day-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 22px 12px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.day-card.locked {
+    border-color: rgba(255, 255, 255, 0.04);
+    opacity: 0.8;
+}
+
+.day-card.unlocked {
+    border-color: rgba(255, 74, 139, 0.25);
+    box-shadow: 0 5px 20px rgba(255, 74, 139, 0.1);
+}
+
+.day-icon {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.day-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: white;
+    margin-bottom: 4px;
+}
+
+.day-status {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+.day-status.locked {
+    color: #ffd166;
+}
+
+.day-status.unlocked {
+    color: #ff4a8b;
+    text-shadow: 0 0 5px rgba(255, 74, 139, 0.3);
+}
+
+/* --- Polaroid Memories --- */
+.moments-container {
+    width: 100%;
+    max-width: 500px;
+    height: 70vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: visible;
+    padding-bottom: 60px;
+    margin-top: 30px;
+}
+
+.polaroid-card {
+    background: #fbfbf9; /* creamy white polaroid paper */
+    padding: 15px 15px 25px 15px;
+    border-radius: 4px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+    width: 250px;
+    position: absolute;
+    cursor: grab;
+    user-select: none;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.polaroid-card:active {
+    cursor: grabbing;
+}
+
+.polaroid-img-wrapper {
+    width: 100%;
+    aspect-ratio: 1/1;
+    overflow: hidden;
+    background: #e5e5e0;
+    border: 1px solid rgba(0,0,0,0.08);
+    position: relative;
+}
+
+.polaroid-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.polaroid-caption {
+    font-family: var(--font-cursive);
+    color: #333230;
+    font-size: 1.45rem;
+    text-align: center;
+    margin-top: 15px;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+/* Modal overlays for unlocking daily messages */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(10, 3, 10, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 150;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: all;
+    padding: 20px;
+}
+
+/* Custom mobile adjustments for low vertical heights */
+@media (max-height: 700px) {
+    .controls-overlay {
+        top: 15px;
+    }
+    .letter-card {
+        max-height: 380px;
+        padding: 20px;
+    }
+    .scrollable-content {
+        max-height: 300px;
+    }
+    .letter-headline {
+        font-size: 1.3rem;
+        margin-bottom: 12px;
+    }
+    .letter-text {
+        font-size: 0.85rem;
+        line-height: 1.5;
+        margin-bottom: 15px;
+    }
+    .signature {
+        font-size: 1.5rem;
+    }
+    .bloom-btn {
+        padding: 12px 35px;
+    }
+    .center-action {
+        bottom: 15%;
+    }
+    .moments-container {
+        height: 60vh;
+    }
+    .polaroid-card {
+        width: 220px;
+        padding: 12px 12px 20px 12px;
+    }
+    .polaroid-caption {
+        font-size: 1.25rem;
+        margin-top: 10px;
+    }
+}
+
+/* Custom mobile adjustments for narrow screen viewports (phones in portrait) */
+@media (max-width: 480px) {
+    .glass-card {
+        padding: 25px 20px;
+    }
+
+    .heart-icon-container {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 12px;
+    }
+
+    .heart-pulse {
+        width: 44px;
+        height: 44px;
+    }
+
+    .elegant-title {
+        font-size: 1.8rem;
+        margin-bottom: 8px;
+    }
+
+    .subtitle {
+        font-size: 0.88rem;
+        margin-bottom: 18px;
+        line-height: 1.5;
+    }
+
+    .premium-btn {
+        padding: 13px 28px;
+        font-size: 0.95rem;
+    }
+
+    .controls-overlay {
+        top: 14px;
+        top: calc(14px + env(safe-area-inset-top));
+        width: 96%;
+    }
+
+    .selector-title {
+        font-size: 0.7rem;
+        letter-spacing: 1.5px;
+        margin-bottom: 6px;
+    }
+
+    .flower-buttons {
+        gap: 7px;
+    }
+
+    .flower-select-btn {
+        padding: 9px 4px;
+        font-size: 0.78rem;
+        border-radius: 10px;
+    }
+
+    .letter-container {
+        top: 45%;
+        width: 92%;
+    }
+
+    .letter-card {
+        padding: 20px 18px 16px;
+        max-height: 380px;
+    }
+
+    .letter-tag {
+        font-size: 0.68rem;
+        margin-bottom: 4px;
+    }
+
+    .letter-headline {
+        font-size: 1.15rem;
+        margin-bottom: 10px;
+    }
+
+    .letter-text {
+        font-size: 0.9rem;
+        line-height: 1.6;
+        margin-bottom: 12px;
+    }
+
+    .signature {
+        font-size: 1.3rem;
+        margin-top: 6px;
+    }
+
+    .center-action {
+        bottom: 110px;
+        bottom: calc(110px + env(safe-area-inset-bottom));
+    }
+
+    .bloom-btn {
+        padding: 13px 34px;
+        border-radius: 40px;
+    }
+
+    .bloom-text {
+        font-size: 1rem;
+    }
+
+    .bloom-subtext {
+        font-size: 0.62rem;
+    }
+
+    .nav-dock {
+        bottom: 15px;
+        bottom: calc(15px + env(safe-area-inset-bottom));
+        padding: 6px 10px;
+        gap: 2px;
+    }
+
+    .nav-item {
+        padding: 8px 10px;
+        font-size: 0.75rem;
+        gap: 4px;
+    }
+
+    .days-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .day-card {
+        padding: 15px 10px;
+    }
+
+    .day-icon {
+        font-size: 1.5rem;
+        margin-bottom: 4px;
+    }
+
+    .day-name {
+        font-size: 0.85rem;
+    }
+
+    .day-status {
+        font-size: 0.65rem;
+    }
+
+    .moments-container {
+        height: 55vh;
+        margin-top: 10px;
+    }
+
+    .polaroid-card {
+        width: 190px;
+        padding: 10px 10px 16px 10px;
+    }
+
+    .polaroid-caption {
+        font-size: 1.15rem;
+        margin-top: 8px;
+    }
+}
