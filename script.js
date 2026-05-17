@@ -34,7 +34,7 @@ function initApp() {
     const FLOWER_CONFIGS = {
         rose: {
             title: 'Un jardín de rosas para Malu 🌹',
-            body: 'Nos vemos en unos días, mi amor... ❤️\n\nCada una de estas rosas representa un motivo para hacerte sonreír. Eres la persona más increíble, apasionada y dulce que conozco. Gracias por llenar mis días de amor, risas y de esa hermosa luz que solo tú tienes. Te amo con todo mi corazón.',
+            body: 'nos vemos unos unos dias mi amor',
             colors: [
                 { main: '#ff2a6d', accent: '#b50c37', highlight: '#ff7fa5' }, // Romantic pink-red
                 { main: '#d90429', accent: '#ef233c', highlight: '#ffb3c1' }, // Classic red
@@ -43,7 +43,7 @@ function initApp() {
         },
         sakura: {
             title: 'Un suspiro de cerezos para Malu 🌸',
-            body: 'Quiero verte todos los días cuando me despierto... ☀️\n\nComo las flores de cerezo en primavera, traes belleza, paz y renovación a mi vida, Malu. Contemplar tu sonrisa es como ver florecer el jardín más hermoso del mundo. Eres mi momento favorito del día y mi tranquilidad absoluta.',
+            body: 'quiero ver todos los dias cuando me despierto',
             colors: [
                 { main: '#ffb7c5', accent: '#ff9ebb', highlight: '#ffffff' }, // Delicate pastel pink
                 { main: '#ffa6c9', accent: '#f77fbe', highlight: '#fff0f5' }, // Soft magenta
@@ -52,7 +52,7 @@ function initApp() {
         },
         sunflower: {
             title: 'Malu, tú eres mi sol 🌻',
-            body: 'Quiero tomar mates y comer ñoquis con vos... 🧉🥟\n\nEres mi energía y mi alegría de todos los días, Malu. Al igual que los girasoles buscan la luz del sol, mi corazón siempre te busca a ti para llenarse de felicidad. Gracias por ser tan brillante, alegre y por iluminar mi mundo entero.',
+            body: 'quiero tomar mates y comer noquis con vos',
             colors: [
                 { main: '#ffb703', accent: '#fb8500', highlight: '#ffe893' }, // Vibrant gold
                 { main: '#ffc300', accent: '#ff9f1c', highlight: '#fff3b0' }, // Sunshine yellow
@@ -61,7 +61,7 @@ function initApp() {
         },
         daisy: {
             title: 'Tu ternura y paz, Malu 🌼',
-            body: 'Sos para mí... 💖\n\nTu dulzura, sencillez y alegría iluminan cada rincón de mi vida, Malu. Las margaritas representan la pureza y los nuevos comienzos, y contigo cada día se siente como un nuevo y hermoso comienzo lleno de promesas y amor puro.',
+            body: 'sos paraaa mi',
             colors: [
                 { main: '#ffffff', accent: '#e9ecef', highlight: '#ffd166' }, // White petals, yellow core
                 { main: '#f8f9fa', accent: '#dee2e6', highlight: '#ffb703' }, // Off-white
