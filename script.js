@@ -34,7 +34,7 @@ function initApp() {
     const FLOWER_CONFIGS = {
         rose: {
             title: 'Un jardín de rosas para Malu 🌹',
-            body: 'nos vemos unos unos dias mi amor',
+            body: 'Nos vemos en unos días, mi amor',
             colors: [
                 { main: '#ff2a6d', accent: '#b50c37', highlight: '#ff7fa5' }, // Romantic pink-red
                 { main: '#d90429', accent: '#ef233c', highlight: '#ffb3c1' }, // Classic red
@@ -43,7 +43,7 @@ function initApp() {
         },
         sakura: {
             title: 'Un suspiro de cerezos para Malu 🌸',
-            body: 'quiero ver todos los dias cuando me despierto',
+            body: 'Quiero verte todos los días cuando me despierto',
             colors: [
                 { main: '#ffb7c5', accent: '#ff9ebb', highlight: '#ffffff' }, // Delicate pastel pink
                 { main: '#ffa6c9', accent: '#f77fbe', highlight: '#fff0f5' }, // Soft magenta
@@ -52,7 +52,7 @@ function initApp() {
         },
         sunflower: {
             title: 'Malu, tú eres mi sol 🌻',
-            body: 'quiero tomar mates y comer noquis con vos',
+            body: 'Quiero tomar mates y comer ñoquis con vos',
             colors: [
                 { main: '#ffb703', accent: '#fb8500', highlight: '#ffe893' }, // Vibrant gold
                 { main: '#ffc300', accent: '#ff9f1c', highlight: '#fff3b0' }, // Sunshine yellow
@@ -61,7 +61,7 @@ function initApp() {
         },
         daisy: {
             title: 'Tu ternura y paz, Malu 🌼',
-            body: 'sos paraaa mi',
+            body: 'Sos para mí',
             colors: [
                 { main: '#ffffff', accent: '#e9ecef', highlight: '#ffd166' }, // White petals, yellow core
                 { main: '#f8f9fa', accent: '#dee2e6', highlight: '#ffb703' }, // Off-white
