@@ -442,87 +442,105 @@ canvas {
     .glass-card {
         padding: 25px 20px;
     }
-    
+
     .heart-icon-container {
-        width: 90px;
-        height: 90px;
-        margin-bottom: 15px;
+        width: 80px;
+        height: 80px;
+        margin-bottom: 12px;
     }
-    
+
     .heart-pulse {
-        width: 50px;
-        height: 50px;
+        width: 44px;
+        height: 44px;
     }
-    
+
     .elegant-title {
-        font-size: 2rem;
-        margin-bottom: 10px;
-    }
-    
-    .subtitle {
-        font-size: 0.9rem;
-        margin-bottom: 20px;
-        line-height: 1.5;
-    }
-    
-    .premium-btn {
-        padding: 14px 28px;
-        font-size: 0.95rem;
-    }
-
-    .controls-overlay {
-        top: 50px;
-        top: calc(30px + env(safe-area-inset-top));
-    }
-
-    .letter-container {
-        top: 53%;
-    }
-
-    .selector-title {
-        font-size: 0.75rem;
+        font-size: 1.8rem;
         margin-bottom: 8px;
     }
 
+    .subtitle {
+        font-size: 0.88rem;
+        margin-bottom: 18px;
+        line-height: 1.5;
+    }
+
+    .premium-btn {
+        padding: 13px 28px;
+        font-size: 0.95rem;
+    }
+
+    /* Flower selector — tight to the top */
+    .controls-overlay {
+        top: 14px;
+        top: calc(14px + env(safe-area-inset-top));
+        width: 96%;
+    }
+
+    .selector-title {
+        font-size: 0.7rem;
+        letter-spacing: 1.5px;
+        margin-bottom: 6px;
+    }
+
+    .flower-buttons {
+        gap: 7px;
+    }
+
     .flower-select-btn {
-        padding: 10px 5px;
-        font-size: 0.8rem;
+        padding: 9px 4px;
+        font-size: 0.78rem;
         border-radius: 10px;
     }
 
+    /* Card — centered but pushed slightly above middle */
+    .letter-container {
+        top: 49%;
+        width: 92%;
+    }
+
     .letter-card {
-        padding: 22px 20px;
-        max-height: 420px;
+        padding: 20px 18px 16px;
+        max-height: 400px;
     }
 
     .letter-tag {
-        font-size: 0.7rem;
+        font-size: 0.68rem;
         margin-bottom: 4px;
     }
 
     .letter-headline {
-        font-size: 1.2rem;
+        font-size: 1.15rem;
         margin-bottom: 10px;
     }
 
     .letter-text {
         font-size: 0.9rem;
         line-height: 1.6;
-        margin-bottom: 15px;
+        margin-bottom: 12px;
     }
 
     .signature {
-        font-size: 1.4rem;
-        margin-top: 8px;
+        font-size: 1.3rem;
+        margin-top: 6px;
     }
 
+    /* Bloom button — clearly above tab bar */
     .center-action {
-        bottom: 70px;
-        bottom: calc(45px + env(safe-area-inset-bottom));
+        bottom: 28px;
+        bottom: calc(28px + env(safe-area-inset-bottom));
     }
 
     .bloom-btn {
-        padding: 12px 28px;
-        margin-bottom: 20px;
+        padding: 13px 34px;
+        border-radius: 40px;
+    }
+
+    .bloom-text {
+        font-size: 1rem;
+    }
+
+    .bloom-subtext {
+        font-size: 0.62rem;
     }
 }
