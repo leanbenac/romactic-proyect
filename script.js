@@ -33,7 +33,7 @@ function initApp() {
     // Flower customization configurations
     const FLOWER_CONFIGS = {
         rose: {
-            title: 'Sos la flor más linda de mi jardin 🌹',
+            title: 'La flor más linda de mi jardín 🌹',
             body: 'Nos vemos en unos días, mi amor',
             colors: [
                 { main: '#ff2a6d', accent: '#b50c37', highlight: '#ff7fa5' }, // Romantic pink-red
