@@ -29,8 +29,8 @@ const DAILY_MESSAGES = {
     },
     2: { // Martes
         icon: "🌸",
-        title: "Una razón para sonreír hoy 🌸",
-        body: "Si estás teniendo un día largo, acordate de que hay alguien que no puede dejar de pensar en lo afortunado que es de tenerte en su vida. Sos mi cable a tierra y mi lugar favorito en el mundo. ¡Te adoro bombonazo! 💕"
+        title: "Buen dia mi amor, que lindo saber que el próximo Martes nos vamos a despertar juntos!   🌸",
+        body: "Quiero que sepas que me gusta mucho lo que tenemos, sos para mi, mi gordilla hermosa y me encanta compartir momentos con vos. Vamos por muchos más! 💕"
     },
     3: { // Miércoles
         icon: "✨",
@@ -54,42 +54,86 @@ const DAILY_MESSAGES = {
     }
 };
 
-// 5 Real Polaroid photo memories
-const POLAROID_MEMORIES = [
+// 5 positions for Polaroid photo memories (slots)
+const POLAROID_SLOTS = [
+    { style: { left: "3%", top: "12%" }, rotation: -7 },
+    { style: { right: "3%", top: "15%" }, rotation: 6 },
+    { style: { left: "20%", top: "22%" }, rotation: -4 },
+    { style: { right: "18%", top: "27%" }, rotation: 8 },
+    { style: { left: "10%", top: "34%" }, rotation: -2 }
+];
+
+// Complete pool of romantic memories (14 real images total)
+const ALL_POLAROID_MEMORIES = [
     {
-        id: "moto",
-        src: "/real_moto.jpg",
-        caption: "Nuestras salidas... 🏍️❤️",
-        defaultStyle: { left: "3%", top: "14%" },
-        rotation: -7
+        id: "amarre",
+        src: "/real_amarre.jpeg",
+        caption: "Amarre perfecto con vos... ⚓❤️"
     },
     {
-        id: "selfie",
-        src: "/real_selfie.jpg",
-        caption: "Mi lugar favorito... 🌴✨",
-        defaultStyle: { right: "3%", top: "16%" },
-        rotation: 6
+        id: "bariloche",
+        src: "/real_bariloche.jpeg",
+        caption: "Aventuras en Bariloche... 🏔️❄️"
     },
     {
-        id: "flowers",
-        src: "/real_yellow_flowers.jpg",
-        caption: "La más hermosa de mi jardín... 🌼💛",
-        defaultStyle: { left: "18%", top: "25%" },
-        rotation: -4
+        id: "cama",
+        src: "/real_cama.jpeg",
+        caption: "Domingos de fiaca y mimos... 🛏️🧸"
     },
     {
         id: "glasses",
         src: "/real_glasses.jpg",
-        caption: "La más facherita... 😎🥂",
-        defaultStyle: { right: "16%", top: "29%" },
-        rotation: 8
+        caption: "La más facherita... 😎🥂"
+    },
+    {
+        id: "green",
+        src: "/real_green.jpeg",
+        caption: "Tu mirada que me encanta... 🌿💚"
+    },
+    {
+        id: "llave",
+        src: "/real_llave.jpeg",
+        caption: "La llave de mi corazón... 🔑✨"
+    },
+    {
+        id: "love",
+        src: "/real_love.jpeg",
+        caption: "Te amo hoy y para siempre... ❤️♾️"
+    },
+    {
+        id: "moto",
+        src: "/real_moto.jpg",
+        caption: "Nuestras salidas... 🏍️❤️"
+    },
+    {
+        id: "park",
+        src: "/real_park.jpeg",
+        caption: "Tardes de plaza y risas... 🌳☀️"
+    },
+    {
+        id: "pibardo",
+        src: "/real_pibardo.jpeg",
+        caption: "Mi compañera favorita... 👫💫"
+    },
+    {
+        id: "piedra",
+        src: "/real_piedra.jpeg",
+        caption: "Pisando fuerte y juntos... 🪨💖"
+    },
+    {
+        id: "selfie",
+        src: "/real_selfie.jpg",
+        caption: "Mi lugar favorito... 🌴✨"
     },
     {
         id: "wine",
         src: "/real_wine.jpg",
-        caption: "Nuestras copitas de vino... 🍷🍇",
-        defaultStyle: { left: "10%", top: "35%" },
-        rotation: -2
+        caption: "Nuestras copitas de vino... 🍷🍇"
+    },
+    {
+        id: "yellow_flowers",
+        src: "/real_yellow_flowers.jpg",
+        caption: "La más hermosa de mi jardín... 🌼💛"
     }
 ];
 
@@ -105,13 +149,33 @@ export default function Home() {
     const [selectedMessage, setSelectedMessage] = useState(null); // Active read modal
     const [shakeDayId, setShakeDayId] = useState(null); // Shake state for locked days
     const [warningModalDay, setWarningModalDay] = useState(null); // Active cheat alert modal
+    const [devMode, setDevMode] = useState(false); // Developer preview override
+
+    // Polaroid gallery dynamic pool
+    const [displayedMemories, setDisplayedMemories] = useState([]);
 
     const canvasRef = useRef(null);
 
-    // Fetch exact day on client mounts
+    // Selects 5 random memories and assigns them to the 5 coordinate slots
+    const shuffleMemories = () => {
+        const shuffled = [...ALL_POLAROID_MEMORIES].sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, 5).map((item, index) => ({
+            ...item,
+            defaultStyle: POLAROID_SLOTS[index].style,
+            rotation: POLAROID_SLOTS[index].rotation
+        }));
+        setDisplayedMemories(selected);
+    };
+
+    // Fetch exact day on client mounts and setup initial random memories
     useEffect(() => {
         const day = new Date().getDay();
         setTodayIndex(day);
+        shuffleMemories();
+        // Enable devMode by default locally to make testing and editing super easy
+        if (process.env.NODE_ENV === "development") {
+            setDevMode(true);
+        }
     }, []);
 
     // Navigates from intro screen to garden and triggers welcoming bursts
@@ -167,7 +231,7 @@ export default function Home() {
 
     // Handles daily box unlock click
     const handleDayClick = (day) => {
-        const isUnlocked = day.id <= todayIndex;
+        const isUnlocked = day.id <= todayIndex || devMode;
 
         if (isUnlocked) {
             setSelectedMessage(DAILY_MESSAGES[day.id]);
@@ -351,7 +415,7 @@ export default function Home() {
                                                     damping: 13
                                                 }}
                                             >
-                                                <span className="bloom-text">¡Enviar Flores! 💐</span>
+                                                <span className="bloom-text">¡Son todas para vos! 💐</span>
                                                 <span className="bloom-subtext">Haz clic para llenar la pantalla</span>
                                             </motion.button>
                                         </div>
@@ -373,13 +437,35 @@ export default function Home() {
                                             <h2 className="elegant-title" style={{ textAlign: "center", fontSize: "1.9rem" }}>
                                                 Tus Mensajitos Diarios 💌
                                             </h2>
-                                            <p className="subtitle" style={{ textAlign: "center", marginBottom: "20px" }}>
+                                            <p className="subtitle" style={{ textAlign: "center", marginBottom: "10px" }}>
                                                 Un detalle secreto para cada día de la semana. ¿Qué te preparó Lean hoy?
                                             </p>
 
+                                            {process.env.NODE_ENV === "development" && (
+                                                <button
+                                                    onClick={() => setDevMode(!devMode)}
+                                                    style={{
+                                                        background: devMode ? "rgba(255, 74, 139, 0.15)" : "rgba(255, 255, 255, 0.08)",
+                                                        border: devMode ? "1px solid rgba(255, 74, 139, 0.35)" : "1px solid rgba(255, 255, 255, 0.15)",
+                                                        color: devMode ? "white" : "var(--text-secondary)",
+                                                        padding: "6px 14px",
+                                                        borderRadius: "15px",
+                                                        fontSize: "0.75rem",
+                                                        cursor: "pointer",
+                                                        marginBottom: "20px",
+                                                        transition: "all 0.3s ease",
+                                                        fontWeight: "600",
+                                                        boxShadow: devMode ? "0 4px 10px rgba(255, 74, 139, 0.2)" : "none",
+                                                        pointerEvents: "all"
+                                                    }}
+                                                >
+                                                    {devMode ? "🛠️ Modo Test: Todo Desbloqueado" : "🔒 Modo Vista Malu (Ver Candados)"}
+                                                </button>
+                                            )}
+
                                             <div className="days-grid">
                                                 {WEEKDAYS.map((day) => {
-                                                    const isUnlocked = day.id <= todayIndex;
+                                                    const isUnlocked = day.id <= todayIndex || devMode;
                                                     const isShaking = shakeDayId === day.id;
 
                                                     return (
@@ -419,39 +505,52 @@ export default function Home() {
                                         style={{ pointerEvents: "all" }}
                                     >
                                         <div className="moments-container">
-                                            <div style={{ position: "absolute", top: "-40px", left: "50%", transform: "translateX(-50%)", width: "90%", textAlign: "center" }}>
-                                                <h2 className="elegant-title" style={{ fontSize: "1.9rem", marginBottom: "8px" }}>Nuestros Momentos 📸</h2>
-                                                <p className="subtitle" style={{ fontSize: "0.85rem", marginBottom: 0 }}>¡Arrastra y desordena las fotitos reales para verlas todas!</p>
+                                            <div style={{ position: "absolute", top: "-55px", left: "50%", transform: "translateX(-50%)", width: "95%", textAlign: "center", zIndex: 10 }}>
+                                                <h2 className="elegant-title" style={{ fontSize: "1.9rem", marginBottom: "4px" }}>Nuestros Momentos 📸</h2>
+                                                <p className="subtitle" style={{ fontSize: "0.85rem", marginBottom: "8px" }}>¡Arrastrá las fotos reales para verlas todas!</p>
+                                                <div style={{ display: "flex", justifyContent: "center" }}>
+                                                    <motion.button
+                                                        className="shuffle-btn"
+                                                        onClick={shuffleMemories}
+                                                        whileHover={{ scale: 1.05 }}
+                                                        whileTap={{ scale: 0.95 }}
+                                                    >
+                                                        Ver otros momentos 🔄
+                                                    </motion.button>
+                                                </div>
                                             </div>
 
-                                            {POLAROID_MEMORIES.map((memory) => (
-                                                <motion.div
-                                                    key={memory.id}
-                                                    className="polaroid-card"
-                                                    style={{ 
-                                                        ...memory.defaultStyle,
-                                                        transformOrigin: "center center"
-                                                    }}
-                                                    drag
-                                                    dragConstraints={{ left: -140, right: 140, top: -140, bottom: 140 }}
-                                                    dragElastic={0.6}
-                                                    whileHover={{ scale: 1.05, rotate: memory.rotation * 0.5, zIndex: 30 }}
-                                                    whileDrag={{ scale: 1.08, zIndex: 50 }}
-                                                    initial={{ rotate: memory.rotation - 4, scale: 0.9, opacity: 0 }}
-                                                    animate={{ rotate: memory.rotation, scale: 1, opacity: 1 }}
-                                                    transition={{ type: "spring", stiffness: 120, damping: 12 }}
-                                                >
-                                                    <div className="polaroid-img-wrapper">
-                                                        <img 
-                                                            src={memory.src} 
-                                                            className="polaroid-img" 
-                                                            alt={memory.caption} 
-                                                            draggable="false" 
-                                                        />
-                                                    </div>
-                                                    <div className="polaroid-caption">{memory.caption}</div>
-                                                </motion.div>
-                                            ))}
+                                            <AnimatePresence>
+                                                {displayedMemories.map((memory) => (
+                                                    <motion.div
+                                                        key={memory.id}
+                                                        className="polaroid-card"
+                                                        style={{ 
+                                                            ...memory.defaultStyle,
+                                                            transformOrigin: "center center"
+                                                        }}
+                                                        drag
+                                                        dragConstraints={{ left: -140, right: 140, top: -140, bottom: 140 }}
+                                                        dragElastic={0.6}
+                                                        whileHover={{ scale: 1.05, rotate: memory.rotation * 0.5, zIndex: 30 }}
+                                                        whileDrag={{ scale: 1.08, zIndex: 50 }}
+                                                        initial={{ rotate: memory.rotation - 4, scale: 0.9, opacity: 0 }}
+                                                        animate={{ rotate: memory.rotation, scale: 1, opacity: 1 }}
+                                                        exit={{ rotate: memory.rotation + 4, scale: 0.9, opacity: 0 }}
+                                                        transition={{ type: "spring", stiffness: 120, damping: 12 }}
+                                                    >
+                                                        <div className="polaroid-img-wrapper">
+                                                            <img 
+                                                                src={memory.src} 
+                                                                className="polaroid-img" 
+                                                                alt={memory.caption} 
+                                                                draggable="false" 
+                                                            />
+                                                        </div>
+                                                        <div className="polaroid-caption">{memory.caption}</div>
+                                                    </motion.div>
+                                                ))}
+                                            </AnimatePresence>
                                         </div>
                                     </motion.div>
                                 )}
@@ -493,7 +592,7 @@ export default function Home() {
                                         ))}
                                     </p>
 
-                                    <div className="signature">Para siempre, Lean ❤️</div>
+                                    <div className="signature">Lean te ama, bombona ❤️</div>
                                 </div>
                             </motion.div>
                         </div>
@@ -520,7 +619,7 @@ export default function Home() {
                                 <p className="subtitle" style={{ fontSize: "0.95rem", lineHeight: "1.6", marginBottom: "20px" }}>
                                     Este mensajito secreto se desbloquea el <strong>{warningModalDay}</strong>. 
                                     <br /><br />
-                                    Tené paciencia, mi amor, ¡falta poquito! Te amo de acá a las estrellas. ✨
+                                    Tené paciencia, mi amor, ¡falta poquito! Te amo de aca hasta Saturno. ✨
                                 </p>
                                 <motion.button
                                     className="premium-btn"
@@ -575,6 +674,7 @@ export default function Home() {
                             onClick={() => {
                                 setActiveTab("moments");
                                 setIsLetterOpen(false);
+                                shuffleMemories();
                             }}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}

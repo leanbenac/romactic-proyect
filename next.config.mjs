@@ -6,11 +6,7 @@ const __dirname = path.dirname(__filename);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    turbo: {
-      root: __dirname,
-    },
-  },
+  /* config options here */
 };
 
 export default nextConfig;
