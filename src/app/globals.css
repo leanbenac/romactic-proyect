@@ -822,3 +822,129 @@ canvas {
         margin-top: 8px;
     }
 }
+
+/* --- Theme Container & Ambients --- */
+.app-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    transition: background 1.5s ease-in-out;
+}
+
+.ambient-garden {
+    background: radial-gradient(circle, #2a1122 0%, #120613 100%);
+}
+
+.ambient-sunset {
+    background: radial-gradient(circle at 50% 30%, #511c38 0%, #200722 55%, #0a010d 100%);
+}
+
+.ambient-stars {
+    background: radial-gradient(circle at 50% 50%, #0c102b 0%, #030412 100%);
+}
+
+
+
+/* --- Theme Controller Popup (Above Nav Dock) --- */
+.theme-menu-nav {
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 170px;
+    padding: 10px !important;
+    border-radius: 18px !important;
+    gap: 4px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 74, 139, 0.15);
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch !important;
+    z-index: 220;
+}
+
+.theme-menu-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+    font-weight: 700;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 6px;
+}
+
+.theme-menu-item {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-secondary);
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    text-align: left;
+    width: 100%;
+}
+
+.theme-menu-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+.theme-menu-item.active {
+    background: linear-gradient(135deg, rgba(255, 74, 139, 0.25) 0%, rgba(255, 112, 81, 0.25) 100%);
+    border-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 0 10px rgba(255, 74, 139, 0.2);
+}
+
+.theme-icon {
+    font-size: 1.1rem;
+}
+
+.theme-name {
+    flex-grow: 1;
+}
+
+/* Adjustments for narrow mobile viewports */
+@media (max-width: 480px) {
+    .theme-menu-nav {
+        bottom: 80px;
+        bottom: calc(80px + env(safe-area-inset-bottom));
+        width: 145px;
+        padding: 8px !important;
+        border-radius: 15px !important;
+    }
+    .theme-menu-item {
+        padding: 7px 10px;
+        font-size: 0.78rem;
+        gap: 8px;
+    }
+}
+
+/* Extremely narrow screens optimization to prevent navbar wrapping */
+@media (max-width: 400px) {
+    .nav-dock {
+        padding: 4px 6px;
+        gap: 1px;
+    }
+    .nav-item {
+        padding: 6px 7px;
+        font-size: 0.7rem;
+        gap: 2px;
+    }
+}
+

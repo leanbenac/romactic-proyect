@@ -143,6 +143,8 @@ export default function Home() {
     const [activeFlowerType, setActiveFlowerType] = useState("rose");
     const [isLetterOpen, setIsLetterOpen] = useState(false);
     const [isAmbientRunning, setIsAmbientRunning] = useState(false);
+    const [ambientMode, setAmbientMode] = useState("garden"); // "garden" | "sunset" | "stars" | "aurora"
+    const [isThemeMenuOpen, setIsThemeMenuOpen] = useState(false);
 
     // Daily message features
     const [todayIndex, setTodayIndex] = useState(1); // will fetch dynamically in useEffect
@@ -250,11 +252,13 @@ export default function Home() {
     return (
         <>
             {/* Visual background elements */}
+            <div className={`app-bg ambient-${ambientMode}`} />
             <div className="bg-vignette" />
             <FlowerCanvas
                 ref={canvasRef}
                 currentType={activeFlowerType}
                 isAmbientRunning={isAmbientRunning}
+                ambientMode={ambientMode}
             />
 
             {/* Screen Content Container */}
@@ -346,8 +350,8 @@ export default function Home() {
                                                         whileTap={{ scale: 0.97 }}
                                                     >
                                                         {type === "rose" && "Rosas Rojas 🌹"}
-                                                        {type === "sakura" && "Cerezos 🌸"}
-                                                        {type === "sunflower" && "Girasoles 🌻"}
+                                                        {type === "planet" && "Planetas 🪐"}
+                                                        {type === "galaxy" && "Galaxias 🌌"}
                                                         {type === "daisy" && "Margaritas 🌼"}
                                                     </motion.button>
                                                 ))}
@@ -636,52 +640,113 @@ export default function Home() {
                 </AnimatePresence>
             </main>
 
-            {/* FLOATING GLASS NAVIGATION DOCK - Located at root level to prevent transform inheritance bugs */}
+            {/* FLOATING GLASS NAVIGATION DOCK & THEME SELECTOR - Located at root level to prevent transform inheritance bugs */}
             <AnimatePresence>
                 {screen === "garden" && (
-                    <motion.nav
-                        initial={{ opacity: 0, y: 60, x: "-50%" }}
-                        animate={{ opacity: 1, y: 0, x: "-50%" }}
-                        exit={{ opacity: 0, y: 60, x: "-50%" }}
-                        transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
-                        className="nav-dock"
-                        style={{ pointerEvents: "all" }}
-                    >
-                        <motion.button
-                            className={`nav-item ${activeTab === "garden" ? "active" : ""}`}
-                            onClick={() => {
-                                setActiveTab("garden");
-                                setIsLetterOpen(true);
-                            }}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
+                    <>
+                        <motion.nav
+                            initial={{ opacity: 0, y: 60, x: "-50%" }}
+                            animate={{ opacity: 1, y: 0, x: "-50%" }}
+                            exit={{ opacity: 0, y: 60, x: "-50%" }}
+                            transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
+                            className="nav-dock"
+                            style={{ pointerEvents: "all" }}
                         >
-                            🌸 El Jardín
-                        </motion.button>
-                        <motion.button
-                            className={`nav-item ${activeTab === "messages" ? "active" : ""}`}
-                            onClick={() => {
-                                setActiveTab("messages");
-                                setIsLetterOpen(false);
-                            }}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                        >
-                            💌 Mensajitos
-                        </motion.button>
-                        <motion.button
-                            className={`nav-item ${activeTab === "moments" ? "active" : ""}`}
-                            onClick={() => {
-                                setActiveTab("moments");
-                                setIsLetterOpen(false);
-                                shuffleMemories();
-                            }}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                        >
-                            📸 Momentos
-                        </motion.button>
-                    </motion.nav>
+                            <motion.button
+                                className={`nav-item ${activeTab === "garden" && !isThemeMenuOpen ? "active" : ""}`}
+                                onClick={() => {
+                                    setActiveTab("garden");
+                                    setIsLetterOpen(true);
+                                    setIsThemeMenuOpen(false);
+                                }}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                🌸 El Jardín
+                            </motion.button>
+                            <motion.button
+                                className={`nav-item ${activeTab === "messages" && !isThemeMenuOpen ? "active" : ""}`}
+                                onClick={() => {
+                                    setActiveTab("messages");
+                                    setIsLetterOpen(false);
+                                    setIsThemeMenuOpen(false);
+                                }}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                💌 Mensajitos
+                            </motion.button>
+                            <motion.button
+                                className={`nav-item ${activeTab === "moments" && !isThemeMenuOpen ? "active" : ""}`}
+                                onClick={() => {
+                                    setActiveTab("moments");
+                                    setIsLetterOpen(false);
+                                    setIsThemeMenuOpen(false);
+                                    shuffleMemories();
+                                }}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                📸 Momentos
+                            </motion.button>
+                            <motion.button
+                                className={`nav-item ${isThemeMenuOpen ? "active" : ""}`}
+                                onClick={() => {
+                                    setIsThemeMenuOpen(!isThemeMenuOpen);
+                                }}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                ✨ Clima
+                            </motion.button>
+                        </motion.nav>
+
+                        {/* Theme popup dropdown above the nav dock */}
+                        <AnimatePresence>
+                            {isThemeMenuOpen && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 25, x: "-50%", scale: 0.92 }}
+                                    animate={{ opacity: 1, y: 0, x: "-50%", scale: 1 }}
+                                    exit={{ opacity: 0, y: 25, x: "-50%", scale: 0.92 }}
+                                    transition={{ type: "spring", stiffness: 350, damping: 24 }}
+                                    className="glass-card theme-menu-nav"
+                                    style={{ pointerEvents: "all" }}
+                                >
+                                    <div className="theme-menu-title">Ambiente</div>
+                                    <button
+                                        className={`theme-menu-item ${ambientMode === "garden" ? "active" : ""}`}
+                                        onClick={() => {
+                                            setAmbientMode("garden");
+                                            setIsThemeMenuOpen(false);
+                                        }}
+                                    >
+                                        <span className="theme-icon">🌸</span>
+                                        <span className="theme-name">Jardín</span>
+                                    </button>
+                                    <button
+                                        className={`theme-menu-item ${ambientMode === "sunset" ? "active" : ""}`}
+                                        onClick={() => {
+                                            setAmbientMode("sunset");
+                                            setIsThemeMenuOpen(false);
+                                        }}
+                                    >
+                                        <span className="theme-icon">🌇</span>
+                                        <span className="theme-name">Atardecer</span>
+                                    </button>
+                                    <button
+                                        className={`theme-menu-item ${ambientMode === "stars" ? "active" : ""}`}
+                                        onClick={() => {
+                                            setAmbientMode("stars");
+                                            setIsThemeMenuOpen(false);
+                                        }}
+                                    >
+                                        <span className="theme-icon">🪐</span>
+                                        <span className="theme-name">Cosmos</span>
+                                    </button>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </>
                 )}
             </AnimatePresence>
         </>
