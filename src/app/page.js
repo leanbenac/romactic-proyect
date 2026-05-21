@@ -188,7 +188,7 @@ export default function Home() {
         // Welcoming burst
         setTimeout(() => {
             if (canvasRef.current) {
-                canvasRef.current.spawnBurst(60, activeFlowerType);
+                canvasRef.current.spawnBurst(40, activeFlowerType);
             }
         }, 600);
 
@@ -207,7 +207,7 @@ export default function Home() {
 
         setTimeout(() => {
             if (canvasRef.current) {
-                canvasRef.current.spawnBurst(45, type);
+                canvasRef.current.spawnBurst(30, type);
             }
             setTimeout(() => {
                 setIsLetterOpen(true);
@@ -218,7 +218,7 @@ export default function Home() {
     // Massive bloom explosion handler
     const handleBloomTrigger = () => {
         if (canvasRef.current) {
-            canvasRef.current.spawnBurst(100, activeFlowerType);
+            canvasRef.current.spawnBurst(60, activeFlowerType);
         }
 
         setIsLetterOpen(false);
@@ -238,7 +238,7 @@ export default function Home() {
         if (isUnlocked) {
             setSelectedMessage(DAILY_MESSAGES[day.id]);
             if (canvasRef.current) {
-                canvasRef.current.spawnBurst(30, activeFlowerType);
+                canvasRef.current.spawnBurst(20, activeFlowerType);
             }
         } else {
             setShakeDayId(day.id);

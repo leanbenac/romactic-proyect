@@ -39,6 +39,8 @@ export const FLOWER_CONFIGS = {
     }
 };
 
+const roseCache = {};
+
 const FlowerCanvas = forwardRef(({ currentType = "rose", isAmbientRunning = false, ambientMode = "garden" }, ref) => {
     const canvasRef = useRef(null);
     const particlesRef = useRef([]);
@@ -54,23 +56,8 @@ const FlowerCanvas = forwardRef(({ currentType = "rose", isAmbientRunning = fals
             const y = canvas.height * 0.8;
 
             for (let i = 0; i < count; i++) {
-                // If in stars/cosmos mode, mix flowers with planets and galaxies
-                if (ambientMode === "stars") {
-                    const rand = Math.random();
-                    let pType = type || currentType;
-                    if (rand < 0.28) {
-                        pType = "planet";
-                    } else if (rand < 0.48) {
-                        pType = "galaxy";
-                    } else if (rand < 0.58) {
-                        pType = "star";
-                    }
-                    const particle = new FlowerParticle(x, y, pType, 1.3, canvas, false);
-                    particlesRef.current.push(particle);
-                } else {
-                    const particle = new FlowerParticle(x, y, type || currentType, 1.3, canvas, false);
-                    particlesRef.current.push(particle);
-                }
+                const particle = new FlowerParticle(x, y, type || currentType, 1.3, canvas, false);
+                particlesRef.current.push(particle);
             }
         }
     }));
@@ -111,6 +98,9 @@ const FlowerCanvas = forwardRef(({ currentType = "rose", isAmbientRunning = fals
                 
                 this.isDead = false;
                 this.decay = Math.random() * 0.005 + 0.003;
+                if (this.type === "rose") {
+                    this.prerenderRose();
+                }
             } else if (this.type === "firefly") {
                 this.size = Math.random() * 5 + 4; // small glow dots
                 this.opacity = Math.random() * 0.5 + 0.3;
@@ -304,33 +294,50 @@ const FlowerCanvas = forwardRef(({ currentType = "rose", isAmbientRunning = fals
             ctx.restore();
         }
 
-        drawRosePetal(ctx) {
-            const size = this.size * 0.65; // adjust scale since complete rose is larger
+        prerenderRose() {
+            const size = Math.round(this.size * 0.65);
+            const key = `${this.color.main}_${this.color.accent}_${this.color.highlight}_${size}`;
             
-            // Draw outer overlapping petals in layers
+            if (roseCache[key]) {
+                this.roseCanvas = roseCache[key].canvas;
+                this.roseOffsetX = roseCache[key].offsetX;
+                this.roseOffsetY = roseCache[key].offsetY;
+                return;
+            }
+
+            const canvasSize = Math.ceil(size * 5);
+            const offCanvas = document.createElement("canvas");
+            offCanvas.width = canvasSize;
+            offCanvas.height = canvasSize;
+            const offCtx = offCanvas.getContext("2d");
+            
+            const cx = canvasSize / 2;
+            const cy = canvasSize * 0.38;
+            offCtx.translate(cx, cy);
+            
             const drawPetalShape = (r, rotation, scaleX, scaleY) => {
-                ctx.save();
-                ctx.rotate(rotation);
-                ctx.scale(scaleX, scaleY);
-                ctx.beginPath();
-                ctx.moveTo(0, 0);
-                ctx.bezierCurveTo(-r * 0.8, -r * 0.5, -r * 0.6, -r * 1.3, 0, -r * 1.5);
-                ctx.bezierCurveTo(r * 0.6, -r * 1.3, r * 0.8, -r * 0.5, 0, 0);
-                ctx.fill();
-                ctx.strokeStyle = "rgba(0,0,0,0.12)";
-                ctx.lineWidth = 0.6;
-                ctx.stroke();
-                ctx.restore();
+                offCtx.save();
+                offCtx.rotate(rotation);
+                offCtx.scale(scaleX, scaleY);
+                offCtx.beginPath();
+                offCtx.moveTo(0, 0);
+                offCtx.bezierCurveTo(-r * 0.8, -r * 0.5, -r * 0.6, -r * 1.3, 0, -r * 1.5);
+                offCtx.bezierCurveTo(r * 0.6, -r * 1.3, r * 0.8, -r * 0.5, 0, 0);
+                offCtx.fill();
+                offCtx.strokeStyle = "rgba(0,0,0,0.12)";
+                offCtx.lineWidth = 0.6;
+                offCtx.stroke();
+                offCtx.restore();
             };
 
             // Layer 1: 5 large outer petals
             const petalCount = 5;
             for (let i = 0; i < petalCount; i++) {
                 const angle = (i * Math.PI * 2) / petalCount;
-                const pGrad = ctx.createRadialGradient(0, 0, size * 0.5, 0, 0, size * 1.2);
+                const pGrad = offCtx.createRadialGradient(0, 0, size * 0.5, 0, 0, size * 1.2);
                 pGrad.addColorStop(0, this.color.main);
                 pGrad.addColorStop(1, this.color.accent);
-                ctx.fillStyle = pGrad;
+                offCtx.fillStyle = pGrad;
                 drawPetalShape(size * 0.8, angle, 1.2, 0.9);
             }
 
@@ -338,10 +345,10 @@ const FlowerCanvas = forwardRef(({ currentType = "rose", isAmbientRunning = fals
             const midCount = 4;
             for (let i = 0; i < midCount; i++) {
                 const angle = (i * Math.PI * 2) / midCount + 0.3;
-                const pGrad = ctx.createRadialGradient(0, 0, size * 0.2, 0, 0, size * 0.8);
+                const pGrad = offCtx.createRadialGradient(0, 0, size * 0.2, 0, 0, size * 0.8);
                 pGrad.addColorStop(0, this.color.highlight);
                 pGrad.addColorStop(1, this.color.main);
-                ctx.fillStyle = pGrad;
+                offCtx.fillStyle = pGrad;
                 drawPetalShape(size * 0.65, angle, 1.1, 0.85);
             }
 
@@ -349,33 +356,50 @@ const FlowerCanvas = forwardRef(({ currentType = "rose", isAmbientRunning = fals
             const innerCount = 3;
             for (let i = 0; i < innerCount; i++) {
                 const angle = (i * Math.PI * 2) / innerCount + 0.6;
-                ctx.fillStyle = this.color.highlight;
+                offCtx.fillStyle = this.color.highlight;
                 drawPetalShape(size * 0.45, angle, 1.0, 0.8);
             }
             
-            // Add stem and leaf behind the rose
-            ctx.save();
-            ctx.globalCompositeOperation = "destination-over";
-            ctx.strokeStyle = "#40916c";
-            ctx.lineWidth = size * 0.14;
-            ctx.lineCap = "round";
-            ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.quadraticCurveTo(-size * 0.6, size * 0.9, -size * 0.2, size * 2.2);
-            ctx.stroke();
+            // Add stem and leaf behind the rose (slightly shorter)
+            offCtx.save();
+            offCtx.globalCompositeOperation = "destination-over";
+            offCtx.strokeStyle = "#40916c";
+            offCtx.lineWidth = size * 0.14;
+            offCtx.lineCap = "round";
+            offCtx.beginPath();
+            offCtx.moveTo(0, 0);
+            offCtx.quadraticCurveTo(-size * 0.5, size * 0.8, -size * 0.2, size * 1.85);
+            offCtx.stroke();
             
             // Left Leaf
-            ctx.fillStyle = "#52b788";
-            ctx.beginPath();
-            ctx.ellipse(-size * 0.42, size * 0.8, size * 0.38, size * 0.18, Math.PI / 3, 0, Math.PI * 2);
-            ctx.fill();
+            offCtx.fillStyle = "#52b788";
+            offCtx.beginPath();
+            offCtx.ellipse(-size * 0.38, size * 0.7, size * 0.35, size * 0.17, Math.PI / 3, 0, Math.PI * 2);
+            offCtx.fill();
 
             // Right Leaf
-            ctx.beginPath();
-            ctx.ellipse(size * 0.24, size * 0.9, size * 0.28, size * 0.14, -Math.PI / 6, 0, Math.PI * 2);
-            ctx.fill();
+            offCtx.beginPath();
+            offCtx.ellipse(size * 0.22, size * 0.8, size * 0.26, size * 0.13, -Math.PI / 6, 0, Math.PI * 2);
+            offCtx.fill();
             
-            ctx.restore();
+            offCtx.restore();
+            
+            // Cache the canvas
+            roseCache[key] = {
+                canvas: offCanvas,
+                offsetX: -cx,
+                offsetY: -cy
+            };
+
+            this.roseCanvas = offCanvas;
+            this.roseOffsetX = -cx;
+            this.roseOffsetY = -cy;
+        }
+
+        drawRosePetal(ctx) {
+            if (this.roseCanvas) {
+                ctx.drawImage(this.roseCanvas, this.roseOffsetX, this.roseOffsetY);
+            }
         }
 
         drawPlanetVariety(ctx) {
@@ -630,7 +654,7 @@ const FlowerCanvas = forwardRef(({ currentType = "rose", isAmbientRunning = fals
             if (p.decay > 0) return true; // keep explosion particles
             if (ambientMode === "garden" && ["rose", "planet", "galaxy", "daisy"].includes(p.type)) return true;
             if (ambientMode === "sunset" && p.type === "firefly") return true;
-            if (ambientMode === "stars" && ["star", "saturn", "galaxy", "blue_planet"].includes(p.type)) return true;
+            if (ambientMode === "stars" && ["star", "planet", "galaxy"].includes(p.type)) return true;
             return false;
         });
 
