@@ -39,8 +39,8 @@ const DAILY_MESSAGES = {
     },
     4: { // Jueves
         icon: "💖",
-        title: "Un pedacito de mi corazón es tuyo 💖",
-        body: "Malu, tenés una magia única que alegra todo a tu alrededor. Gracias por ser tan dulce, tan compañera y tan increíble conmigo. Nunca olvides lo especial que sos para mí. Te amo con locura. 🌻"
+        title: "Tenes un lugar en mi corazón 💖",
+        body: "Malu, tenés una sonrisa hermosa, que me enamora cada día más. Gracias por ser tan dulce, tan compañera y tan intensa conmigo. Nunca olvides lo especial que sos para mí. Te amo con todo mi corazón. 🌻"
     },
     5: { // Viernes
         icon: "🎉",
@@ -143,7 +143,7 @@ export default function Home() {
     const [activeFlowerType, setActiveFlowerType] = useState("rose");
     const [isLetterOpen, setIsLetterOpen] = useState(false);
     const [isAmbientRunning, setIsAmbientRunning] = useState(false);
-    
+
     // Daily message features
     const [todayIndex, setTodayIndex] = useState(1); // will fetch dynamically in useEffect
     const [selectedMessage, setSelectedMessage] = useState(null); // Active read modal
@@ -199,7 +199,7 @@ export default function Home() {
     // Handles switching the active flower type with custom delays
     const handleSelectFlowerType = (type) => {
         if (type === activeFlowerType) return;
-        
+
         setIsLetterOpen(false);
         setActiveFlowerType(type);
 
@@ -271,7 +271,7 @@ export default function Home() {
                             className="screen active"
                         >
                             <div className="glass-card intro-card">
-                                <motion.div 
+                                <motion.div
                                     className="heart-icon-container"
                                     whileHover={{ scale: 1.05 }}
                                 >
@@ -312,16 +312,16 @@ export default function Home() {
 
                     {/* STEP 2: APP DASHBOARD SCREENS */}
                     {screen === "garden" && (
-                        <motion.div 
-                            key="app-content" 
-                            className="screen active" 
+                        <motion.div
+                            key="app-content"
+                            className="screen active"
                             style={{ pointerEvents: "none" }}
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ duration: 0.5 }}
                         >
                             <AnimatePresence mode="wait">
-                                
+
                                 {/* TAB A: EL JARDÍN DE FLORES */}
                                 {activeTab === "garden" && (
                                     <motion.div
@@ -378,7 +378,7 @@ export default function Home() {
                                                         </div>
                                                         <div className="scrollable-content">
                                                             <span className="letter-tag">Para Malu</span>
-                                                            
+
                                                             <AnimatePresence mode="wait">
                                                                 <motion.div
                                                                     key={activeFlowerType}
@@ -525,7 +525,7 @@ export default function Home() {
                                                     <motion.div
                                                         key={memory.id}
                                                         className="polaroid-card"
-                                                        style={{ 
+                                                        style={{
                                                             ...memory.defaultStyle,
                                                             transformOrigin: "center center"
                                                         }}
@@ -540,11 +540,11 @@ export default function Home() {
                                                         transition={{ type: "spring", stiffness: 120, damping: 12 }}
                                                     >
                                                         <div className="polaroid-img-wrapper">
-                                                            <img 
-                                                                src={memory.src} 
-                                                                className="polaroid-img" 
-                                                                alt={memory.caption} 
-                                                                draggable="false" 
+                                                            <img
+                                                                src={memory.src}
+                                                                className="polaroid-img"
+                                                                alt={memory.caption}
+                                                                draggable="false"
                                                             />
                                                         </div>
                                                         <div className="polaroid-caption">{memory.caption}</div>
@@ -577,7 +577,7 @@ export default function Home() {
                                 <div className="scrollable-content" style={{ maxHeight: "380px" }}>
                                     <span className="letter-tag">Mensaje de Hoy ✨</span>
                                     <h2 className="letter-headline">{selectedMessage.title}</h2>
-                                    
+
                                     <p className="letter-text">
                                         {selectedMessage.body.split(" ").map((word, i) => (
                                             <motion.span
@@ -617,7 +617,7 @@ export default function Home() {
                                     ¡Epa, no hagas trampa! 😉
                                 </h3>
                                 <p className="subtitle" style={{ fontSize: "0.95rem", lineHeight: "1.6", marginBottom: "20px" }}>
-                                    Este mensajito secreto se desbloquea el <strong>{warningModalDay}</strong>. 
+                                    Este mensajito secreto se desbloquea el <strong>{warningModalDay}</strong>.
                                     <br /><br />
                                     Tené paciencia, mi amor, ¡falta poquito! Te amo de aca hasta Saturno. ✨
                                 </p>
