@@ -52,24 +52,40 @@ const FlowerCanvas = forwardRef(({ currentType = "rose", isAmbientRunning = fals
             const canvas = canvasRef.current;
             if (!canvas) return;
 
-            const x = canvas.width / 2;
-            const y = canvas.height * 0.8;
+            if (ambientMode === "stars") {
+                // 3D Warp Speed effect: spawn from center
+                const startX = canvas.width / 2;
+                const startY = canvas.height / 2;
+                const actualCount = 7; // Less particles needed because they scale up dramatically
 
-            for (let i = 0; i < count; i++) {
-                const particle = new FlowerParticle(x, y, type || currentType, 1.3, canvas, false);
-                particlesRef.current.push(particle);
+                for (let i = 0; i < actualCount; i++) {
+                    // Pass is3D = true at the end
+                    const particle = new FlowerParticle(startX, startY, type || currentType, 1.0, canvas, false, true);
+                    particlesRef.current.push(particle);
+                }
+            } else {
+                // Normal garden fountain effect
+                const x = canvas.width / 2;
+                const y = canvas.height * 0.8;
+
+                for (let i = 0; i < count; i++) {
+                    const particle = new FlowerParticle(x, y, type || currentType, 1.3, canvas, false, false);
+                    particlesRef.current.push(particle);
+                }
             }
         }
     }));
 
     // Particle Class Definition adapted for React environment
     class FlowerParticle {
-        constructor(x, y, type, speedMultiplier = 1, canvas, isAmbient = false) {
+        constructor(x, y, type, speedMultiplier = 1, canvas, isAmbient = false, is3D = false) {
             this.x = x;
             this.y = y;
             this.type = type;
             this.canvas = canvas;
             this.isAmbient = isAmbient;
+            this.is3D = is3D;
+            this.scale = 1;
 
             if (this.type === "saturn" || this.type === "blue_planet") {
                 this.type = "planet";
@@ -275,9 +291,43 @@ const FlowerCanvas = forwardRef(({ currentType = "rose", isAmbientRunning = fals
                 this.pulseSpeed = Math.random() * 0.008 + 0.003;
                 this.pulseOffset = Math.random() * Math.PI * 2;
             }
+
+            // 3D Override for warp speed effect
+            if (this.is3D) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 0.8 + 0.3; // Initial slow velocity
+                this.vx = Math.cos(angle) * speed;
+                this.vy = Math.sin(angle) * speed;
+                this.scale = 0.03; // Start tiny in the background
+                this.gravity = 0;  // No gravity in space
+                this.wind = 0;
+                this.decay = 0;
+                this.opacity = 1;
+                this.size = Math.random() * 35 + 20; // Base size
+            }
         }
 
         update() {
+            if (this.is3D) {
+                this.scale *= 1.045; // Exponential growth simulates getting closer
+                this.vx *= 1.045;    // Accelerate outwards
+                this.vy *= 1.045;
+                
+                this.x += this.vx;
+                this.y += this.vy;
+                this.angle += this.rotationSpeed;
+
+                // Fade out smoothly as it passes the camera to avoid popping
+                if (this.scale > 2.2) {
+                    this.opacity -= 0.035;
+                }
+                
+                if (this.opacity <= 0 || this.x < -300 || this.x > this.canvas.width + 300 || this.y < -300 || this.y > this.canvas.height + 300) {
+                    this.isDead = true;
+                }
+                return;
+            }
+
             this.vy += this.gravity;
             this.vx += (Math.sin(Date.now() * this.swaySpeed + this.swayOffset) * this.swayDistance * 0.05) + this.wind;
 
@@ -317,6 +367,9 @@ const FlowerCanvas = forwardRef(({ currentType = "rose", isAmbientRunning = fals
             ctx.save();
             ctx.translate(this.x, this.y);
             ctx.rotate(this.angle);
+            if (this.is3D) {
+                ctx.scale(this.scale, this.scale);
+            }
             ctx.globalAlpha = Math.max(0, this.opacity);
 
             switch (this.type) {
@@ -777,7 +830,7 @@ const FlowerCanvas = forwardRef(({ currentType = "rose", isAmbientRunning = fals
         // Pre-populate stars and nebulae immediately if cosmos is selected
         if (ambientMode === "stars") {
             // Nebula clouds first (drawn behind everything)
-            const nebulaCount = 5;
+            const nebulaCount = 3;
             for (let i = 0; i < nebulaCount; i++) {
                 const x = Math.random() * canvas.width;
                 const y = Math.random() * canvas.height;
@@ -785,8 +838,8 @@ const FlowerCanvas = forwardRef(({ currentType = "rose", isAmbientRunning = fals
                 particlesRef.current.push(particle);
             }
 
-            // Dense starfield
-            const starCount = 80;
+            // Starfield - balanced for performance
+            const starCount = 45;
             for (let i = 0; i < starCount; i++) {
                 const x = Math.random() * canvas.width;
                 const y = Math.random() * canvas.height;
@@ -826,9 +879,9 @@ const FlowerCanvas = forwardRef(({ currentType = "rose", isAmbientRunning = fals
                     break;
                 }
                 case "stars": {
-                    // Replenish stars to maintain dense starfield
+                    // Replenish stars to maintain starfield
                     const currentStars = particles.filter(p => p.type === "star");
-                    if (currentStars.length < 80 && Math.random() < 0.2) {
+                    if (currentStars.length < 45 && Math.random() < 0.2) {
                         const x = Math.random() * canvas.width;
                         const y = Math.random() * canvas.height;
                         const particle = new FlowerParticle(x, y, "star", 1, canvas, true);
@@ -863,6 +916,20 @@ const FlowerCanvas = forwardRef(({ currentType = "rose", isAmbientRunning = fals
             spawnAmbient();
 
             const particles = particlesRef.current;
+
+            // Safety cap to prevent lag if the user spams the burst button
+            if (particles.length > 220) {
+                let removed = 0;
+                const excess = particles.length - 220;
+                for (let i = 0; i < particles.length && removed < excess; i++) {
+                    // Only remove explosion particles (flowers or 3D cosmos elements), never touch the background
+                    if (["rose", "daisy"].includes(particles[i].type) || particles[i].is3D) {
+                        particles.splice(i, 1);
+                        i--;
+                        removed++;
+                    }
+                }
+            }
             for (let i = particles.length - 1; i >= 0; i--) {
                 const p = particles[i];
                 p.update();
