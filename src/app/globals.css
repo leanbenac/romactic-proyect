@@ -23,7 +23,8 @@
 }
 
 /* Force lock viewport scrolling for true premium app behavior */
-html, body {
+html,
+body {
     width: 100%;
     height: 100%;
     overflow: hidden !important;
@@ -73,7 +74,7 @@ canvas {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0; 
+    padding: 0;
     overflow: hidden;
 }
 
@@ -153,6 +154,40 @@ canvas {
     filter: drop-shadow(0 0 8px var(--primary-color));
 }
 
+/* Falling Hearts Rain - Intro Screen */
+.hearts-rain {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.falling-heart {
+    position: absolute;
+    top: -5%;
+    animation: heartFall linear infinite;
+    filter: blur(0.5px);
+    color: #ff4a8b; /* vibrant pink-red hearts */
+}
+
+@keyframes heartFall {
+    0% {
+        transform: translateY(-10%) translateX(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    85% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) translateX(30px) rotate(35deg);
+        opacity: 0;
+    }
+}
+
 /* Elegant Typography */
 .elegant-title {
     font-family: var(--font-heading);
@@ -220,7 +255,7 @@ canvas {
     color: var(--text-secondary);
     margin-bottom: 12px;
     font-weight: 600;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* Redesigned to support natural flex widths, avoiding squishing and wrapping */
@@ -243,7 +278,8 @@ canvas {
     font-weight: 600;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    white-space: nowrap; /* Forces emojis to remain on the same line */
+    white-space: nowrap;
+    /* Forces emojis to remain on the same line */
     transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
@@ -287,14 +323,14 @@ canvas {
 
 .bloom-btn:hover {
     box-shadow: 0 0 45px rgba(255, 74, 139, 0.7);
-    border-color: rgba(255,255,255,0.4);
+    border-color: rgba(255, 255, 255, 0.4);
 }
 
 .bloom-text {
     font-size: 1.1rem;
     font-weight: 700;
     letter-spacing: 0.5px;
-    text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .bloom-subtext {
@@ -361,9 +397,11 @@ canvas {
 .scrollable-content::-webkit-scrollbar {
     width: 4px;
 }
+
 .scrollable-content::-webkit-scrollbar-track {
     background: transparent;
 }
+
 .scrollable-content::-webkit-scrollbar-thumb {
     background: rgba(255, 74, 139, 0.3);
     border-radius: 10px;
@@ -399,7 +437,7 @@ canvas {
     font-family: var(--font-cursive);
     font-size: 1.8rem;
     color: var(--primary-color);
-    text-shadow: 0 0 10px rgba(255,74,139,0.2);
+    text-shadow: 0 0 10px rgba(255, 74, 139, 0.2);
     margin-top: 15px;
 }
 
@@ -418,7 +456,8 @@ canvas {
     display: flex;
     gap: 8px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 74, 139, 0.1);
-    z-index: 200; /* Ensured it stays above all transformed screen contents */
+    z-index: 200;
+    /* Ensured it stays above all transformed screen contents */
     pointer-events: all;
     max-width: 92%;
     width: max-content;
@@ -567,7 +606,8 @@ canvas {
 }
 
 .polaroid-card {
-    background: #fbfbf9; /* creamy white polaroid paper */
+    background: #fbfbf9;
+    /* creamy white polaroid paper */
     padding: 15px 15px 25px 15px;
     border-radius: 4px;
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
@@ -587,7 +627,7 @@ canvas {
     aspect-ratio: 1/1;
     overflow: hidden;
     background: #e5e5e0;
-    border: 1px solid rgba(0,0,0,0.08);
+    border: 1px solid rgba(0, 0, 0, 0.08);
     position: relative;
 }
 
@@ -630,38 +670,48 @@ canvas {
     .controls-overlay {
         top: 15px;
     }
+
     .letter-card {
         max-height: 380px;
         padding: 20px;
     }
+
     .scrollable-content {
         max-height: 300px;
     }
+
     .letter-headline {
         font-size: 1.3rem;
         margin-bottom: 12px;
     }
+
     .letter-text {
         font-size: 0.85rem;
         line-height: 1.5;
         margin-bottom: 15px;
     }
+
     .signature {
         font-size: 1.5rem;
     }
+
     .bloom-btn {
         padding: 12px 35px;
     }
+
     .center-action {
         bottom: 15%;
     }
+
     .moments-container {
         height: 60vh;
     }
+
     .polaroid-card {
         width: 220px;
         padding: 12px 12px 20px 12px;
     }
+
     .polaroid-caption {
         font-size: 1.25rem;
         margin-top: 10px;
@@ -838,12 +888,12 @@ canvas {
     background: radial-gradient(circle, #2a1122 0%, #120613 100%);
 }
 
-.ambient-sunset {
-    background: radial-gradient(circle at 50% 30%, #511c38 0%, #200722 55%, #0a010d 100%);
-}
-
 .ambient-stars {
-    background: radial-gradient(circle at 50% 50%, #0c102b 0%, #030412 100%);
+    background: 
+        radial-gradient(ellipse at 25% 40%, rgba(80, 20, 120, 0.45) 0%, transparent 55%),
+        radial-gradient(ellipse at 75% 60%, rgba(20, 50, 110, 0.4) 0%, transparent 55%),
+        radial-gradient(ellipse at 50% 20%, rgba(140, 30, 80, 0.2) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, #0a0d1f 0%, #03040e 100%);
 }
 
 
@@ -928,6 +978,7 @@ canvas {
         padding: 8px !important;
         border-radius: 15px !important;
     }
+
     .theme-menu-item {
         padding: 7px 10px;
         font-size: 0.78rem;
@@ -941,10 +992,10 @@ canvas {
         padding: 4px 6px;
         gap: 1px;
     }
+
     .nav-item {
         padding: 6px 7px;
         font-size: 0.7rem;
         gap: 2px;
     }
 }
-

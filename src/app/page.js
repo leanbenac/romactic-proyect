@@ -44,8 +44,8 @@ const DAILY_MESSAGES = {
     },
     5: { // Viernes
         icon: "🎉",
-        title: "¡Llegó el viernes, mi vida! 🎉",
-        body: "Se termina la semana y solo puedo pensar en los momentos hermosos que nos quedan por vivir juntos. Sos mi felicidad entera, bombonazo. ¡Disfrutá mucho de tu viernes, te mereces lo mejor! 🥂❤️"
+        title: "¡Llegó el viernes, hermosa! 🎉",
+        body: "Se termina la semana y solo puedo pensar en los dias que vamos a pasar juntos. Sos mi amor, bombonazo. ¡Disfrutá mucho de tu viernes, que mañana desayunamos juntos mi amor! 🥂❤️"
     },
     6: { // Sábado
         icon: "🥂",
@@ -157,6 +157,21 @@ export default function Home() {
     const [displayedMemories, setDisplayedMemories] = useState([]);
 
     const canvasRef = useRef(null);
+
+    // Hearts generated only on client to avoid SSR hydration mismatch
+    const [fallingHearts, setFallingHearts] = useState([]);
+    useEffect(() => {
+        const HEART_EMOJIS = ["❤️", "💕", "💗", "💖", "🩷"];
+        setFallingHearts(Array.from({ length: 18 }, (_, i) => ({
+            id: i,
+            left: `${5 + Math.random() * 90}%`,
+            animationDelay: `${Math.random() * 6}s`,
+            animationDuration: `${4 + Math.random() * 5}s`,
+            fontSize: `${0.7 + Math.random() * 1.1}rem`,
+            opacity: 0.25 + Math.random() * 0.45,
+            emoji: HEART_EMOJIS[Math.floor(Math.random() * HEART_EMOJIS.length)]
+        })));
+    }, []);
 
     // Selects 5 random memories and assigns them to the 5 coordinate slots
     const shuffleMemories = () => {
@@ -272,8 +287,24 @@ export default function Home() {
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.96, y: -25 }}
                             transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
+                            style={{ position: "relative" }}
                             className="screen active"
                         >
+                            {/* Falling hearts background */}
+                            <div className="hearts-rain" aria-hidden="true">
+                                {fallingHearts.map((h) => (
+                                    <span key={h.id} className="falling-heart" style={{
+                                        left: h.left,
+                                        animationDelay: h.animationDelay,
+                                        animationDuration: h.animationDuration,
+                                        fontSize: h.fontSize,
+                                        opacity: h.opacity
+                                    }}>
+                                        {h.emoji}
+                                    </span>
+                                ))}
+                            </div>
+
                             <div className="glass-card intro-card">
                                 <motion.div
                                     className="heart-icon-container"
@@ -722,16 +753,6 @@ export default function Home() {
                                     >
                                         <span className="theme-icon">🌸</span>
                                         <span className="theme-name">Jardín</span>
-                                    </button>
-                                    <button
-                                        className={`theme-menu-item ${ambientMode === "sunset" ? "active" : ""}`}
-                                        onClick={() => {
-                                            setAmbientMode("sunset");
-                                            setIsThemeMenuOpen(false);
-                                        }}
-                                    >
-                                        <span className="theme-icon">🌇</span>
-                                        <span className="theme-name">Atardecer</span>
                                     </button>
                                     <button
                                         className={`theme-menu-item ${ambientMode === "stars" ? "active" : ""}`}
